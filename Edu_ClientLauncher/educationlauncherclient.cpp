@@ -33,7 +33,7 @@ EducationLuncherClient::~EducationLuncherClient()
 
 
 
-void EducationLuncherClient::processPendingDatagrams() // 接收到服务端udp广播，触发此函数，发出tcp连接服务端ll
+void EducationLuncherClient::processPendingDatagrams() // 接收到服务端udp广播，触发此函数，发出tcp连接服务端
 {
 
 
