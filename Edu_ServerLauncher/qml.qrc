@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>Courseware.qml</file>
+        <file>CoursewareForm.ui.qml</file>
+        <file>Database.qml</file>
+        <file>DatabaseForm.ui.qml</file>
+        <file>TestLibray.qml</file>
+        <file>TestLibrayForm.ui.qml</file>
+    </qresource>
+</RCC>
