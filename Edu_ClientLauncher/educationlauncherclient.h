@@ -1,4 +1,4 @@
-#ifndef EDUCATIONLUNCHERCLIENT_H
+﻿#ifndef EDUCATIONLUNCHERCLIENT_H
 #define EDUCATIONLUNCHERCLIENT_H
 
 #include <QMainWindow>
@@ -32,8 +32,8 @@ private slots:
 
 
 private:
-    QTcpSocket* tcpClient;
-    QUdpSocket*  udpScoket;
+    QTcpSocket* tcpClient;//TCP
+    QUdpSocket*  udpScoket;//UDP
 
 
 
