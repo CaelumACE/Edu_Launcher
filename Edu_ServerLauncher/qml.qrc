@@ -8,5 +8,14 @@
         <file>DatabaseForm.ui.qml</file>
         <file>TestLibray.qml</file>
         <file>TestLibrayForm.ui.qml</file>
+        <file>image/功能按钮（按下）.png</file>
+        <file>image/logo.png</file>
+        <file>image/大底板.jpg</file>
+        <file>image/课程选择底板.png</file>
+        <file>image/关闭.png</file>
+        <file>image/最大化.png</file>
+        <file>image/窗口化.png</file>
+        <file>image/最小化.png</file>
+        <file>image/darn cute_01.ico</file>
     </qresource>
 </RCC>
