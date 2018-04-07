@@ -1,11 +1,12 @@
-QT += qml quick
+QT += qml quick widgets gui
 
 CONFIG += c++11
 
 SOURCES += main.cpp \
     server.cpp \
     tcpclientsocket.cpp \
-    educationlauncherserver.cpp
+    educationlauncherserver.cpp \
+    minimizetray.cpp
 
 RESOURCES += qml.qrc
 
@@ -34,4 +35,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     server.h \
     tcpclientsocket.h \
-    educationlauncherserver.h
+    educationlauncherserver.h \
+    minimizetray.h
