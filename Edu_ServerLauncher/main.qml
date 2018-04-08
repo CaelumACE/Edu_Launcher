@@ -20,6 +20,46 @@ ApplicationWindow {
 
 
 
+    MinimizeTray
+    {
+        id:minimizetray
+    }
+
+    Connections
+    {
+        target:minimizetray
+        onQmlChangeMinimizeTraySignal:
+        {
+            setMaximizeWindow();
+
+        }
+
+        onQmlHideWindowSignal:
+        {
+
+            window.hide();
+
+        }
+
+
+        onQmlChangeRestoreWindowSignal:
+        {
+            setNormalWindow();
+
+        }
+
+
+        onQmlChangeMaximizeWindowSignal:
+        {
+            setMaximizeWindow();
+        }
+
+    }
+
+
+
+
+
       //改变窗口的状态图标
       function changeWindow()
       {
@@ -54,6 +94,15 @@ ApplicationWindow {
           window.showMaximized();
           maximize.source="qrc:/image/窗口化.png"
           maximize.isMax=true;
+
+      }
+
+      //窗口窗口化
+      function setNormalWindow()
+      {
+          window.showNormal();
+          maximize.source="qrc:/image/最大化.png"
+          maximize.isMax=false;
 
       }
 
@@ -684,21 +733,7 @@ ApplicationWindow {
 
 
 
-    MinimizeTray
-    {
-        id:minimizetray
-    }
 
-    Connections
-    {
-        target:minimizetray
-        onQmlChangeMinimizeTraySignal:
-        {
-            setMaximizeWindow();
-
-        }
-
-    }
 
 
 

@@ -3,10 +3,10 @@
 #include<QQuickItem>
 #include<QQmlImageProviderBase>
 
-MinimizeTray::MinimizeTray(QQuickWindow* root)
+MinimizeTray::MinimizeTray()
 
 {
-     //window=root;
+
     initTrayMenu();
     initTrayIcon();
 
@@ -16,32 +16,27 @@ MinimizeTray::MinimizeTray(QQuickWindow* root)
 //初始化托盘菜单
 void MinimizeTray::initTrayMenu()
 {
-//    m_miniSizeAction=new QAction("Min(&Vx)",this);
-//    m_maxSizeAction=new  QAction("Max(&X)",this);
-//    m_restoreWinAction=new QAction("Reduction(&R)",this);
+    m_miniSizeAction=new QAction("Min(&V)",this);
+    m_maxSizeAction=new  QAction("Max(&X)",this);
+    m_restoreWinAction=new QAction("Reduction(&R)",this);
     m_quitAction=new QAction("Quit(&Q)",this);
 
-//    m_miniSizeAction->setIcon(QIcon(":/image/darn cute_01.ico"));
-//    m_maxSizeAction->setIcon(QIcon(":/image/darn cute_01.ico"));
+    m_miniSizeAction->setIcon(QIcon(":/image/darn cute_01.ico"));
+    m_restoreWinAction->setIcon(QIcon(":/image/darn cute_01.ico"));
+    m_maxSizeAction->setIcon(QIcon(":/image/darn cute_01.ico"));
     m_quitAction->setIcon(QIcon(":/image/darn cute_01.ico"));
+
     m_menu=new QMenu((QWidget*)QApplication::desktop());
-//    m_menu->addAction(m_miniSizeAction);
-//    m_menu->addAction(m_maxSizeAction);
-//    m_menu->addAction(m_restoreWinAction);
-//   m_menu->addSeparator();     //加入一个分隔符
+    m_menu->addAction(m_miniSizeAction);
+    m_menu->addAction(m_maxSizeAction);
+    m_menu->addAction(m_restoreWinAction);
+    m_menu->addSeparator();     //加入一个分隔符
     m_menu->addAction(m_quitAction);
 
-//  connect(m_miniSizeAction,&QAction::triggered,window,&QQuickWindow::hide);
-//   connect(m_maxSizeAction,&QAction::triggered,window,&QQuickWindow::showMaximized);
-//   connect(m_restoreWinAction,&QAction::triggered,window,&QQuickWindow::showNormal);
-//   connect(m_quitAction,&QAction::triggered,window,&QQuickWindow::close);
-
-
-//  connect(m_maxSizeAction,&QAction::triggered,this,&MinimizeTray::changeMinimizeTray);
-//  connect(m_restoreWinAction,&QAction::triggered,this,&MinimizeTray::changeMinimizeTray);
-
-//   connect(window,&QQuickWindow::closing,this,&MinimizeTray::closeEvent);
-   connect(m_quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
+     connect(m_miniSizeAction,&QAction::triggered,this,&MinimizeTray::qmlChangeHideWindow);
+     connect(m_restoreWinAction,&QAction::triggered,this,&MinimizeTray::qmlChangeRestoreWindow);
+     connect(m_maxSizeAction,&QAction::triggered,this,&MinimizeTray::qmlChangeMaximizeWindow);
+     connect(m_quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
 
 
 
@@ -74,7 +69,7 @@ void MinimizeTray::iconActivated(QSystemTrayIcon::ActivationReason reason)
    // case QSystemTrayIcon::Trigger:
        //break;
     case QSystemTrayIcon::DoubleClick:
-         changeMinimizeTray();//双击鼠标左键将窗口最大化显示
+         qmlDoubleClickChangeWindow();//双击鼠标左键将窗口最大化显示
         break;
      case QSystemTrayIcon::MiddleClick:
             m_myTrayIcon->showMessage("I am here","Hi,This is my TeacherIcon",QSystemTrayIcon::Information,5000);
@@ -85,26 +80,34 @@ void MinimizeTray::iconActivated(QSystemTrayIcon::ActivationReason reason)
 
 }
 
-//void MinimizeTray::closeEvent(QCloseEvent *event)
-//{
-//    if(m_myTrayIcon->isVisible())
-//    {
-//        m_myTrayIcon->showMessage("I am here","Hi,This is my TeacherIcon",QSystemTrayIcon::Information,5000);
-//        window->hide();
-//        event->ignore();
-//    }else {
-//        event->accept();
-//    }
 
 
-//}
 
-
-//向QML发送窗口变化改变消息
-void MinimizeTray::changeMinimizeTray()
+//双击图标后向QML发送窗口最大化
+void MinimizeTray::qmlDoubleClickChangeWindow()
 
 {
 
     emit qmlChangeMinimizeTraySignal();
 
+}
+
+//向QML发送窗口隐藏
+void MinimizeTray::qmlChangeHideWindow()
+{
+    emit qmlHideWindowSignal();
+
+}
+
+//向QML发送窗口窗口化
+void MinimizeTray::qmlChangeRestoreWindow()
+{
+    emit qmlChangeRestoreWindowSignal();
+
+}
+
+//向QML发送窗口最大化
+void MinimizeTray::qmlChangeMaximizeWindow()
+{
+    emit qmlChangeMaximizeWindowSignal();
 }
