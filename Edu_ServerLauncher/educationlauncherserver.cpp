@@ -15,14 +15,6 @@ educationlauncherserver::educationlauncherserver(QObject *parent) : QObject(pare
     connect(timer,SIGNAL(timeout()),this,SLOT(broadcastDatagram()));
 
 
-
-
-
-
-
-
-
-
 }
 
 

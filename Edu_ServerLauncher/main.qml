@@ -2,7 +2,9 @@
 import QtQuick.Window 2.3
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
+import an.QT.WindowControl 1.0
 import an.QT.EDU 1.0
+
 
 ApplicationWindow {
     visible: true
@@ -11,32 +13,83 @@ ApplicationWindow {
     title: qsTr("Teacher")
     flags:Qt.FramelessWindowHint
 
+    objectName: "qmlWindow"
+    id:window
+
+
+
+
+
+      //改变窗口的状态图标
+      function changeWindow()
+      {
+          if(!maximize.isMax){
+
+              window.showMaximized();
+              maximize.source="qrc:/image/窗口化.png"
+              maximize.isMax=true;
+               }
+
+          else
+          {
+
+
+             window.showNormal();
+              maximize.source="qrc:/image/最大化.png"
+              maximize.isMax=false;
+          }
+
+
+
+
+
+
+
+      }
+
+
+      //窗口最大化
+      function setMaximizeWindow()
+      {
+          window.showMaximized();
+          maximize.source="qrc:/image/窗口化.png"
+          maximize.isMax=true;
+
+      }
+
+
+    //LOGO
     Image {
         id: logo
         source: "qrc:/image/logo.png"
         x:-40;y:20;z:-1
         scale: 0.6
 
-    }
 
+    }
+    //背景
     Image {
         id: background
+        // anchors.fill: parent
+        //fillMode: Image.Stretch
         source: "qrc:/image/大底板.jpg"
         z:-2
 
          }
-
+    //课程背景
     Image {
         id: coursewareBackground
+        //anchors.top: parent
         source: "qrc:/image/课程选择底板.png"
         x:0;y:78; z:-2
 
 
     }
 
-
+    //窗口控制
     Row{
         spacing: 5
+
         anchors.top: parent.top;
         anchors.right: parent.right
         anchors.rightMargin: 0
@@ -51,7 +104,7 @@ ApplicationWindow {
                 width:parent.width;height:parent.height
 
                 onClicked:{
-                            ApplicationWindow.window.showMinimized();
+                            ApplicationWindow.window.hide();
 
 
                           }
@@ -66,6 +119,7 @@ ApplicationWindow {
 
         Image {
             id: maximize
+            objectName:"tray"
             source: "qrc:/image/最大化.png"
             property bool isMax:false
 
@@ -73,27 +127,13 @@ ApplicationWindow {
                 width:parent.width;height:parent.height
 
                 onClicked:{
-                          if(!maximize.isMax){
-
-                              ApplicationWindow.window.showMaximized();
-                              maximize.source="qrc:/image/窗口化.png"
-                              maximize.isMax=true;
-                               }
-
-                          else
-                          {
+                          changeWindow();
 
 
-                              ApplicationWindow.window.showNormal();
-                              maximize.source="qrc:/image/最大化.png"
-                              maximize.isMax=false;
-                          }
+                   }
 
-                          }
-
-                       }
-
-}
+        }
+        }
         Image {
             id: quitButton
             source: "qrc:/image/关闭.png"
@@ -115,15 +155,6 @@ ApplicationWindow {
 
 
               }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -170,8 +201,8 @@ ApplicationWindow {
 
 }
 
-SwipeView
-{
+    SwipeView
+    {
     id:swipeview
     currentIndex: tabbutton.currentIndex
 
@@ -181,7 +212,7 @@ SwipeView
 
 }
 
-//页标识组件
+    //页标识组件
     PageIndicator
     {
         id:pageIndicator
@@ -211,7 +242,7 @@ SwipeView
 
 //    property string buttonText:"开始(10s)"
 
-//   //c++类在qml中的对象
+   //c++类在qml中的对象
 //    EducationLauncherServer
 //    {
 //        id:teacherServer
@@ -648,6 +679,32 @@ SwipeView
 //            }
 
 //        }
+
+
+
+
+
+    MinimizeTray
+    {
+        id:minimizetray
+    }
+
+    Connections
+    {
+        target:minimizetray
+        onQmlChangeMinimizeTraySignal:
+        {
+            setMaximizeWindow();
+
+        }
+
+    }
+
+
+
+
+
+
 
 
 }
