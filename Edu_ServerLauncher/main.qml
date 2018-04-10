@@ -8,16 +8,19 @@ import an.QT.EDU 1.0
 
 ApplicationWindow {
     visible: true
-    width: 1000
-    height: 600
+    width: 1277
+    height: 799
     title: qsTr("Teacher")
     flags:Qt.FramelessWindowHint
-
     objectName: "qmlWindow"
     id:window
 
+    property var physicNameData: ["光学1","光学2","光学3","光学4","光学5","力学1","力学2","力学3","力学4","力学5","电学1","电学2"]
+    property var chemistryNameData: ["氧化还原","铁","铜","铝","元素周期","稀有气体","二氧化碳","一氧化碳"]
+    property var biologyNameData: ["食物链","细胞分裂","卵细胞分裂","进化","细菌","病毒"]
+    property var nameData:[physicNameData,chemistryNameData,biologyNameData]
 
-
+    property var lastCourseIndex:0
 
 
     MinimizeTray
@@ -107,24 +110,101 @@ ApplicationWindow {
       }
 
 
-    //LOGO
-    Image {
-        id: logo
-        source: "qrc:/image/logo.png"
-        x:-40;y:20;z:-1
-        scale: 0.6
 
-
-    }
     //背景
     Image {
         id: background
-        // anchors.fill: parent
+        //anchors.fill: parent
         //fillMode: Image.Stretch
         source: "qrc:/image/大底板.jpg"
         z:-2
 
-         }
+        //LOGO
+        Image {
+            id: logo
+            source: "qrc:/image/logo.png"
+            x:-40;y:20;z:0
+            scale:0.6
+
+
+        }
+
+
+
+        //功能选择按钮，包括课件，习题，数据
+        Row{
+            x:parent.x+210
+            y:parent.y+20
+
+         Repeater
+                {
+                    id:functionRepeater
+                    model: ["课件","习题","数据"]
+
+
+                    TabButton{
+
+
+                        id:tabbuttton
+                        font.pointSize:22
+                        checked:index==0? 1:0
+                        text:modelData
+                        //页面切换
+                        onClicked:
+                        {
+                             course.visible=functionRepeater.itemAt(0).checked
+                             testLibray.visible=functionRepeater.itemAt(1).checked
+                             database.visible=functionRepeater.itemAt(2).checked
+
+
+
+
+                        }
+                        onCheckedChanged:
+                        {
+
+
+
+                            if(index===0&&course.visible===false)
+                            {
+                            course.courseNameData=nameData[lastCourseIndex]
+                            course.clearModelList();
+                            course.initial();
+                            }
+
+
+
+
+                        }
+
+
+
+                        Image{
+                            id: tabbuttonName
+                            width: parent.width
+                            height: parent.height
+                            z:-1
+                            source:tabbuttton.checked ?"qrc:/image/功能按钮（按下）.png":""
+
+                             }
+
+
+                             }
+
+                             }
+
+
+                }
+
+
+
+
+
+
+
+
+
+           }
     //课程背景
     Image {
         id: coursewareBackground
@@ -133,9 +213,64 @@ ApplicationWindow {
         x:0;y:78; z:-2
 
 
-    }
+       // property var updateCourseName:""
 
-    //窗口控制
+        //科目选择按钮
+
+        Column
+        {
+            id:columnCourseButton
+            spacing: 0
+           Repeater
+           {
+               id:courseRepeater
+               model: ["物理","化学","生物"]
+               TabButton{
+
+
+                   id:tabbutttonCourse
+                   width:200
+                   font.pixelSize: 18;font.bold: true
+                   checked:index==0? true:false
+
+
+                   onCheckedChanged:
+                   {
+
+
+
+                      course.courseNameData=nameData[index]
+                      course.clearModelList();
+                      course.initial();
+                      lastCourseIndex=index  //将选择的科目当前索引存储,用于功能界面翻页时候保存当前选择科目
+
+
+
+                   }
+
+                   Image{
+                       id: tabButtonCourseName
+                       width: parent.width
+                       height: parent.height
+
+                       z:-1
+                       source:tabbutttonCourse.checked ?"qrc:/image/选择按钮.png":""
+
+                        }
+
+                       text:modelData
+                        }
+
+
+
+
+           }
+        }
+
+
+        }
+
+       //窗口控制
     Row{
         spacing: 5
 
@@ -206,73 +341,113 @@ ApplicationWindow {
               }
 
 
+   Courseware
+   {
+       id:course
 
-    TabBar{
-    id:tabbutton
-     spacing: 0
-     font.pixelSize: 22
-    currentIndex: swipeview.currentIndex
-    x:parent.x+210
-    y:20
-    TabButton{
-        Image{
-            id: tabbuttonName1
-            width: parent.width
-            z:-1
-            source: "qrc:/image/功能按钮（按下）.png"
-             }
+   }
 
-           text: qsTr("课件")
-             }
-
-    TabButton{
-        Image{
-            id: tabbuttonName2
-            width: parent.width
-            z:-1
-            source: "qrc:/image/功能按钮（按下）.png"
-             }
-
-           text: qsTr("习题")
-             }
-
-    TabButton{
-        Image{
-            id: tabbuttonName
-            width: parent.width
-            z:-1
-            source: "qrc:/image/功能按钮（按下）.png"
-             }
-
-           text: qsTr("数据")
-             }
+   TestLibray
+   {
+       id:testLibray
+       visible: false
 
 
-}
 
-    SwipeView
-    {
-    id:swipeview
-    currentIndex: tabbutton.currentIndex
+   }
 
-   Database{}
-   TestLibray{}
-   TestLibray{}
+   Database
+   {
+       id:database
+       visible: false
 
-}
+
+   }
+
+
+
+
+
+      //课程目录排版
+//      GridView
+//      {
+//          id:couresGridView
+//          anchors.fill: parent
+//          delegate:courseDelegate
+//          model:courseListmodel
+//          cellHeight: 45
+//          cellWidth: 100
+//          clip: true
+//         //  x:z:-1
+
+//      }
+//      ListModel
+//      {
+//          id:courseListmodel
+//          ListElement{courseName:"电学";imagePath:"qrc:/image/课程.png"}
+//          ListElement{courseName:"力学";imagePath:"qrc:/image/课程.png"}
+//          ListElement{courseName:"光学";imagePath:"qrc:/image/课程.png"}
+
+//      }
+//      Component
+//      {
+//          id:courseDelegate
+
+
+//          Column{
+//              spacing: -5
+
+//          Image {
+//              id: courseNameImage
+//              source:imagePath
+
+
+//                }
+
+//          Label{text:courseName}
+
+//              }
+//      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    SwipeView
+//    {
+//    id:swipeview
+//    anchors.fill:parent
+//    currentIndex: tabbuttonbar.currentIndex
+//    z:-2
+//     TestLibray{}
+//     Courseware{}
+//     Database{}
+
+
+
+//   }
 
     //页标识组件
-    PageIndicator
-    {
-        id:pageIndicator
-        interactive: false
-        count: swipeview.count
-        currentIndex: swipeview.currentIndex
-        anchors.bottom: parent.bottom
-        anchors.horizontalCenter:parent.horizontalCenter
+//    PageIndicator
+//    {
+//        id:pageIndicator
+//        interactive: false
+//        count: swipeview.count
+//        currentIndex: swipeview.currentIndex
+//        anchors.bottom: parent.bottom
+//        anchors.horizontalCenter:parent.horizontalCenter
 
 
-    }
+//    }
 
 
 
@@ -362,8 +537,8 @@ ApplicationWindow {
 
 
 //           //物理
-//           Rectangle {
-//               property string title: "物理"
+//           Rectangle
+//               property string title: "物理"{
 
 //               anchors.fill: parent
 //               radius: 8

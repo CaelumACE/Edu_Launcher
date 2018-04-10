@@ -1,10 +1,10 @@
-#include <QGuiApplication>
+//#include <QGuiApplication>
 #include<QApplication>
 #include <QQmlApplicationEngine>
 #include<QtQml>
 #include<QObject>
 #include<QQuickWindow>
-#include<QDebug>
+//#include<QDebug>
 #include"educationlauncherserver.h"
 #include"minimizetray.h"
 
@@ -18,8 +18,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<educationlauncherserver>("an.QT.EDU",1,0,"EducationLauncherServer");//在QML中注册educationLauncher类
     qmlRegisterType<MinimizeTray>("an.QT.WindowControl",1,0,"MinimizeTray");//在QML中注册Minizetray类
 
-   QQmlApplicationEngine engine;
-
+    QQmlApplicationEngine engine;
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;

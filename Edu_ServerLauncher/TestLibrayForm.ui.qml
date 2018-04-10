@@ -6,10 +6,10 @@ Item {
     width: 400
     height: 400
 
-    SwipeDelegate {
-        id: swipeDelegate
-        x: 68
-        y: 190
-        text: qsTr("Swipe Delegate")
+    Button {
+        id: button
+        x: 180
+        y: 176
+        text: qsTr("Button")
     }
 }

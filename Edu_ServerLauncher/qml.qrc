@@ -17,5 +17,7 @@
         <file>image/窗口化.png</file>
         <file>image/最小化.png</file>
         <file>image/darn cute_01.ico</file>
+        <file>image/选择按钮.png</file>
+        <file>image/diban.png</file>
     </qresource>
 </RCC>
